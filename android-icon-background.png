@@ -1,0 +1,372 @@
+import ParallaxScrollView from '@/components/parallax-scroll-view';
+import { ThemedText } from '@/components/themed-text';
+import { ThemedView } from '@/components/themed-view';
+import { IconSymbol } from '@/components/ui/icon-symbol';
+import React from 'react';
+import { Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+
+const { width } = Dimensions.get('window');
+
+// Dados para as categorias (Grid)
+const CATEGORIES = [
+  { id: '1', title: 'Limpeza', icon: 'house.fill', color: '#4facfe' },
+  { id: '2', title: 'Reformas', icon: 'hammer.fill', color: '#ff9a9e' },
+  { id: '3', title: 'Elétrica', icon: 'bolt.fill', color: '#f6d365' },
+  { id: '4', title: 'Aulas', icon: 'book.fill', color: '#66a6ff' },
+  { id: '5', title: 'Saúde', icon: 'heart.fill', color: '#fab2ff' },
+  { id: '6', title: 'Pets', icon: 'pawprint.fill', color: '#84fab0' },
+];
+
+// Dados para serviços em destaque (Carrossel)
+const POPULAR_SERVICES = [
+  { id: 'p1', title: 'Faxina Padrão', price: 'A partir de R$ 120', rating: '4.9', reviews: '(120)' },
+  { id: 'p2', title: 'Instalação de Ar', price: 'A partir de R$ 250', rating: '4.8', reviews: '(85)' },
+  { id: 'p3', title: 'Passeador', price: 'A partir de R$ 40', rating: '5.0', reviews: '(200)' },
+];
+
+export default function TabTwoScreen() {
+  return (
+    <ParallaxScrollView
+      headerBackgroundColor={{ light: '#002B5B', dark: '#001A36' }}
+      headerImage={
+        <View style={styles.headerContent}>
+          
+          {/* Saudação e Localização */}
+          <View style={styles.headerTop}>
+            <View>
+              <ThemedText style={styles.greeting}>Olá, Gustavo 👋</ThemedText>
+              <TouchableOpacity style={styles.locationContainer} activeOpacity={0.7}>
+                <IconSymbol name="mappin.and.ellipse" size={16} color="#FF9F00" />
+                <ThemedText style={styles.locationText}>Plano Piloto, Brasília</ThemedText>
+                <IconSymbol name="chevron.down" size={14} color="#A0AEC0" />
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity activeOpacity={0.8}>
+              <Image 
+                source={{ uri: 'https://i.pravatar.cc/150?img=11' }} 
+                style={styles.avatar} 
+              />
+            </TouchableOpacity>
+          </View>
+
+          {/* Barra de Busca (Visualmente melhorada) */}
+          <TouchableOpacity activeOpacity={0.9} style={styles.searchBar}>
+            <IconSymbol name="magnifyingglass" size={22} color="#002B5B" />
+            <ThemedText style={styles.searchPlaceholder}>O que você precisa hoje?</ThemedText>
+            <View style={styles.filterButton}>
+              <IconSymbol name="slider.horizontal.3" size={18} color="#FFF" />
+            </View>
+          </TouchableOpacity>
+        </View>
+      }>
+      
+      <ThemedView style={styles.container}>
+        
+        {/* Seção: Serviços Populares */}
+        <View style={styles.sectionContainer}>
+          <View style={styles.sectionHeader}>
+            <ThemedText style={styles.sectionTitle}>Em alta perto de você</ThemedText>
+          </View>
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false} 
+            contentContainerStyle={styles.carousel}
+            snapToInterval={175} // Ajuda no deslize suave
+            decelerationRate="fast"
+          >
+            {POPULAR_SERVICES.map((item) => (
+              <TouchableOpacity key={item.id} activeOpacity={0.9} style={styles.popularCard}>
+                <View style={styles.popularImagePlaceholder}>
+                  <IconSymbol name="star.fill" size={28} color="#FF9F00" />
+                </View>
+                <View style={styles.popularInfo}>
+                  <ThemedText style={styles.popularTitle} numberOfLines={1}>{item.title}</ThemedText>
+                  <View style={styles.ratingContainer}>
+                    <IconSymbol name="star.fill" size={14} color="#FF9F00" />
+                    <ThemedText style={styles.ratingText}>{item.rating}</ThemedText>
+                    <ThemedText style={styles.reviewText}>{item.reviews}</ThemedText>
+                  </View>
+                  <ThemedText style={styles.popularPrice}>{item.price}</ThemedText>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+
+        {/* Seção: Categorias */}
+        <View style={styles.sectionContainer}>
+          <View style={styles.sectionHeader}>
+            <ThemedText style={styles.sectionTitle}>Explore por Categoria</ThemedText>
+            <TouchableOpacity activeOpacity={0.7}>
+              <ThemedText style={styles.seeAll}>Ver tudo</ThemedText>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.grid}>
+            {CATEGORIES.map((item) => (
+              <TouchableOpacity key={item.id} activeOpacity={0.8} style={styles.categoryCard}>
+                <View style={[styles.iconWrapper, { backgroundColor: item.color + '1A' }]}>
+                  <IconSymbol name={item.icon as any} size={30} color={item.color} />
+                </View>
+                <ThemedText style={styles.categoryLabel}>{item.title}</ThemedText>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
+        {/* Banner Promocional Premium */}
+        <TouchableOpacity activeOpacity={0.9} style={styles.promoBanner}>
+          <View style={styles.promoTextContainer}>
+            <View style={styles.promoTag}>
+              <ThemedText style={styles.promoTagText}>GANHE R$ 50</ThemedText>
+            </View>
+            <ThemedText style={styles.promoTitle}>Indique um amigo</ThemedText>
+            <ThemedText style={styles.promoSubtitle}>Compartilhe seu código e ganhe descontos em serviços no DF.</ThemedText>
+          </View>
+          <View style={styles.promoIconWrapper}>
+            <IconSymbol name="gift.fill" size={40} color="#FF9F00" />
+          </View>
+        </TouchableOpacity>
+
+      </ThemedView>
+    </ParallaxScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  headerContent: {
+    height: '100%',
+    justifyContent: 'flex-end',
+    paddingHorizontal: 20,
+    paddingBottom: 25,
+  },
+  headerTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 25,
+  },
+  greeting: {
+    color: '#FFF',
+    fontSize: 22,
+    fontWeight: '800',
+    letterSpacing: -0.5,
+  },
+  locationContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginTop: 6,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 12,
+    alignSelf: 'flex-start',
+  },
+  locationText: {
+    color: '#E2E8F0',
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  avatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 2,
+    borderColor: '#FF9F00',
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFF',
+    width: '100%',
+    height: 56,
+    borderRadius: 16,
+    paddingLeft: 16,
+    paddingRight: 6,
+    gap: 12,
+    shadowColor: '#000',
+    shadowOpacity: 0.12,
+    shadowOffset: { width: 0, height: 6 },
+    shadowRadius: 15,
+    elevation: 8,
+  },
+  searchPlaceholder: {
+    flex: 1,
+    color: '#A0AEC0',
+    fontSize: 15,
+    fontWeight: '500',
+  },
+  filterButton: {
+    backgroundColor: '#002B5B',
+    padding: 10,
+    borderRadius: 12,
+  },
+  container: {
+    backgroundColor: '#F8FAFC', // Mais limpo que o cinza anterior
+    paddingBottom: 50,
+    borderTopLeftRadius: 24, // Suaviza a transição do Parallax
+    borderTopRightRadius: 24,
+    marginTop: -20, // Puxa o conteúdo um pouco para cima do header
+  },
+  sectionContainer: {
+    marginTop: 30,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    paddingHorizontal: 20,
+    marginBottom: 16,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#1A202C',
+    letterSpacing: -0.5,
+  },
+  seeAll: {
+    color: '#FF9F00',
+    fontWeight: '700',
+    fontSize: 14,
+    marginBottom: 2,
+  },
+  carousel: {
+    paddingHorizontal: 20,
+    gap: 16,
+  },
+  popularCard: {
+    backgroundColor: '#FFF',
+    width: 160,
+    borderRadius: 20,
+    padding: 12,
+    shadowColor: '#64748B',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 3,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+  },
+  popularImagePlaceholder: {
+    backgroundColor: '#FFF8F0',
+    height: 90,
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  popularInfo: {
+    paddingHorizontal: 4,
+  },
+  popularTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#2D3748',
+    marginBottom: 6,
+  },
+  ratingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    marginBottom: 8,
+  },
+  ratingText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#4A5568',
+  },
+  reviewText: {
+    fontSize: 12,
+    color: '#A0AEC0',
+  },
+  popularPrice: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#002B5B',
+  },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    gap: 12,
+    paddingHorizontal: 20,
+  },
+  categoryCard: {
+    width: (width - 52) / 3, // Cálculo exato considerando o gap e o padding
+    backgroundColor: '#FFF',
+    borderRadius: 20,
+    paddingVertical: 20,
+    alignItems: 'center',
+    shadowColor: '#64748B',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+  },
+  iconWrapper: {
+    width: 60,
+    height: 60,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  categoryLabel: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#4A5568',
+  },
+  promoBanner: {
+    flexDirection: 'row',
+    backgroundColor: '#FF9F00',
+    marginHorizontal: 20,
+    marginTop: 40,
+    padding: 24,
+    borderRadius: 24,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    shadowColor: '#FF9F00',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.25,
+    shadowRadius: 16,
+    elevation: 8,
+  },
+  promoTextContainer: {
+    flex: 1,
+    paddingRight: 20,
+  },
+  promoTag: {
+    backgroundColor: '#FFF',
+    alignSelf: 'flex-start',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  promoTagText: {
+    color: '#FF9F00',
+    fontSize: 11,
+    fontWeight: '900',
+    letterSpacing: 0.5,
+  },
+  promoTitle: {
+    color: '#FFF',
+    fontSize: 20,
+    fontWeight: '900',
+    letterSpacing: -0.5,
+    marginBottom: 6,
+  },
+  promoSubtitle: {
+    color: 'rgba(255,255,255,0.9)',
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  promoIconWrapper: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    padding: 16,
+    borderRadius: 20,
+  },
+});

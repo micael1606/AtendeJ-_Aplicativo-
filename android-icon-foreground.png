@@ -1,0 +1,147 @@
+import { ThemedText } from '@/components/themed-text';
+import { ThemedView } from '@/components/themed-view';
+import React from 'react';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+
+export default function HomeScreen() {
+  return (
+    <ThemedView style={styles.container}>
+      {/* Logo e Nome */}
+      <View style={styles.logoContainer}>
+        <View style={styles.iconPlaceholder}>
+           <Image 
+            source={{ uri: 'https://img.icons8.com/ios-filled/100/ffffff/shield.png' }} 
+            style={styles.logoIcon} 
+          />
+        </View>
+        <ThemedText style={styles.brandName}>ATENDEJÁ</ThemedText>
+      </View>
+
+      {/* Título Principal */}
+      <View style={styles.textContainer}>
+        <ThemedText style={styles.mainTitle}>
+          Serviços de <ThemedText style={styles.highlight}>Brasília.</ThemedText>
+        </ThemedText>
+        <ThemedText style={styles.description}>
+          A plataforma inteligente que conecta você aos melhores profissionais do DF em segundos.
+        </ThemedText>
+      </View>
+
+      {/* Botões de Ação */}
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={[styles.button, styles.buttonPrimary]}>
+          <ThemedText style={styles.buttonTextPrimary}>QUERO CONTRATAR</ThemedText>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={[styles.button, styles.buttonSecondary]}>
+          <ThemedText style={styles.buttonTextSecondary}>QUERO TRABALHAR</ThemedText>
+        </TouchableOpacity>
+      </View>
+
+      {/* Link de Login */}
+      <View style={styles.footer}>
+        <ThemedText style={styles.footerText}>
+          JÁ TEM CONTA? <ThemedText style={styles.linkText}>ENTRAR AGORA</ThemedText>
+        </ThemedText>
+      </View>
+    </ThemedView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 30,
+    backgroundColor: '#FFFFFF', // Ajuste conforme o tema (light/dark)
+  },
+  logoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 40,
+  },
+  iconPlaceholder: {
+    backgroundColor: '#002B5B',
+    padding: 10,
+    borderRadius: 12,
+    marginRight: 10,
+  },
+  logoIcon: {
+    width: 30,
+    height: 30,
+  },
+  brandName: {
+    fontSize: 28,
+    fontWeight: '900',
+    color: '#002B5B',
+    letterSpacing: -1,
+  },
+  textContainer: {
+    alignItems: 'center',
+    marginBottom: 50,
+  },
+  mainTitle: {
+    fontSize: 34,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#002B5B',
+    marginBottom: 15,
+  },
+  highlight: {
+    color: '#FF9F00',
+    textDecorationLine: 'underline',
+  },
+  description: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: '#666',
+    lineHeight: 24,
+  },
+  buttonContainer: {
+    width: '100%',
+    gap: 15,
+    marginBottom: 40,
+  },
+  button: {
+    height: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 3, // Sombra no Android
+    shadowColor: '#000', // Sombra no iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  buttonPrimary: {
+    backgroundColor: '#002B5B',
+  },
+  buttonSecondary: {
+    backgroundColor: '#F8F9FA',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  buttonTextPrimary: {
+    color: '#FFF',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  buttonTextSecondary: {
+    color: '#002B5B',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  footer: {
+    marginTop: 20,
+  },
+  footerText: {
+    fontSize: 12,
+    color: '#999',
+    fontWeight: 'bold',
+  },
+  linkText: {
+    color: '#002B5B',
+    textDecorationLine: 'underline',
+  },
+});
